@@ -7,6 +7,8 @@ Centralized workflows for training application
 - another test
 - test 4
 - test 5
+- test 6
+
 
 
 
