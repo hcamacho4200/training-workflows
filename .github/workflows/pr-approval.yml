@@ -3,6 +3,8 @@ name: Tag on PR Approval
 on:
   pull_request:
     types: [closed]
+  permissions:
+    contents: write
 
 jobs:
   on_merge:
