@@ -2,10 +2,10 @@ name: Tag on PR Approval
 
 on:
   pull_request:
-    types: [review_requested, reviewed]  # Triggered when a PR review occurs.
+    types: [closed]
 
 jobs:
-  create_tag:
+  on_merge:
     runs-on: ubuntu-latest
 
     steps:
