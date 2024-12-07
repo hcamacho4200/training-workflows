@@ -18,6 +18,7 @@ jobs:
     - name: Check if PR is approved
       run: |
         # Get the list of reviews for the PR
+        echo "GITHUB_TOKEN is set to: $GITHUB_TOKEN"  # This won't display the token itself, but helps confirm availability
         reviews=$(gh pr view ${{ github.event.pull_request.number }} --json reviews -q '.reviews | .[] | select(.state == "APPROVED")')
         if [[ -n "$reviews" ]]; then
           echo "PR is approved, creating a tag."
