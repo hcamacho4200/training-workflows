@@ -1,0 +1,35 @@
+name: Tag on PR Approval
+
+on:
+  pull_request:
+    types: [review_requested, reviewed]  # Triggered when a PR review occurs.
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Git
+      uses: actions/setup-git@v2
+
+    - name: Check if PR is approved
+      run: |
+        # Get the list of reviews for the PR
+        reviews=$(gh pr view ${{ github.event.pull_request.number }} --json reviews -q '.reviews | .[] | select(.state == "APPROVED")')
+        if [[ -n "$reviews" ]]; then
+          echo "PR is approved, creating a tag."
+          # Create a tag with the current date or commit hash as tag name
+          tag_name="pr-approval-$(date +'%Y-%m-%d-%H-%M-%S')"  # You can change this to any naming format you prefer
+          git tag $tag_name
+          git push origin $tag_name
+        else
+          echo "PR is not approved yet, no tag created."
+        fi
+
+    - name: Push tag
+      run: |
+        git push --tags
+      if: success()  # Push the tag only if the PR is approved
