@@ -12,9 +12,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
-    - name: Set up Git
-      uses: actions/setup-git@v2
-
     - name: Check if PR is approved
       run: |
         # Get the list of reviews for the PR
