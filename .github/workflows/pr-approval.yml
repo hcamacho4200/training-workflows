@@ -21,11 +21,12 @@ jobs:
       run: |
         # Get the list of reviews for the PR
         echo "GITHUB_TOKEN is set to: $GITHUB_TOKEN"  # This won't display the token itself, but helps confirm availability
+        REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
         mergedBy=$(gh pr view ${{ github.event.pull_request.number }} --json mergedBy)
         if [[ -n "$mergedBy" ]]; then
           echo "PR is approved, creating a tag."
           # Create a tag with the current date or commit hash as tag name
-          tag_name="pr-approval-$(date +'%Y-%m-%d-%H-%M-%S')"  # You can change this to any naming format you prefer
+          tag_name="REPO_NAME-$(date +'%Y-%m-%d-%H-%M-%S')"  # You can change this to any naming format you prefer
           git tag $tag_name
           git push origin $tag_name
         else
